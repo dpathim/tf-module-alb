@@ -3,19 +3,9 @@ resource "aws_lb" "main" {
   internal           = var.internal
   load_balancer_type = var.lb_type
   security_groups    = [aws_security_group.main.id]
-  subnets            = [for subnet in aws_subnet.public : subnet.id]
+  subnets            = var.subnets
 
-  enable_deletion_protection = true
-
-  access_logs {
-    bucket  = aws_s3_bucket.lb_logs.id
-    prefix  = "test-lb"
-    enabled = true
-  }
-
-  tags = {
-    Environment = "production"
-  }
+  tags = merge(local.tags, {Name = "${var.env}-alb"})
 }
 
 resource "aws_security_group" "main" {
