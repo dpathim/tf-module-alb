@@ -27,6 +27,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
 }
 resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv6" {
   security_group_id = aws_security_group.main.id
+  cidr_ipv4         = var.sg_ingress_cidr
   from_port         = var.sg_port
   ip_protocol       = "tcp"
   to_port           = var.sg_port
