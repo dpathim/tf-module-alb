@@ -2,7 +2,7 @@ resource "aws_lb" "main" {
   name               = local.lb_name
   internal           = var.internal
   load_balancer_type = var.lb_type
-  security_groups    = aws_security_group.main.id
+  security_groups    = [aws_security_group.main.id]
   subnets            = var.subnets
   tags = merge(local.tags, { Name = "${var.env}-alb" })
 }
@@ -25,8 +25,8 @@ resource "aws_security_group" "main" {
     from_port        = 0
     to_port          = 0
     protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    cidr_blocks      = "0.0.0.0/0"
+    ipv6_cidr_blocks = "::/0"
   }
 }
 
