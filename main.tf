@@ -1,10 +1,9 @@
 resource "aws_lb" "main" {
-  name               ="${var.env}-dev"
+  name               =local.lb_name
   internal           = var.internal
   load_balancer_type = var.lb_type
   security_groups    = [aws_security_group.main.id]
   subnets            = var.subnets
-
   tags = merge(local.tags, {Name = "${var.env}-alb"})
 }
 
@@ -19,7 +18,7 @@ resource "aws_security_group" "main" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
   description = "APP"
-  security_group_id   = aws_security_group.main.id
+  security_group_id  = aws_security_group.main.id
   cidr_ipv4         = var.sg_ingress_cidr
   from_port         = var.sg_port
   ip_protocol       = "tcp"
